@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import os
 
-from data_loader import load_all
-from recommender import RecommenderSystem
+from .data_loader import load_all
+from .recommender import RecommenderSystem
 
 # --- Inicialización de la app ---
 app = FastAPI(title="Motor de Recomendaciones - Compensar")
