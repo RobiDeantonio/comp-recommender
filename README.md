@@ -120,12 +120,27 @@ uvicorn src.api:app --host 0.0.0.0 --port 8000
 4. Prueba la documentación interactiva:
    [http://localhost:8000/docs](http://localhost:8000/docs)
 
+**Recomendaciones**
+```
+http://0.0.0.0:8000/recommendations?user_id=1&top_n=5
+```
+
+**Popularidad**
+```
+http://0.0.0.0:8000/popular?top_n=3
+```
 ---
 
 ## 6️⃣ Cómo ejecutar la API en Render
 
+**Render** es una plataforma de **despliegue en la nube** que permite publicar aplicaciones web, APIs, bases de datos y servicios de forma sencilla, sin necesidad de administrar servidores directamente.
+
+Para este caso el repositorio de **GitHub** se conecta con Render, de está manera se puede publicar tu API de recomendaciones en línea, dándote una URL pública (https://comp-recommender.onrender.com/) que cualquiera puede usar para hacer consultas a tu motor de recomendaciones.
+
+**Proceso de conexión***
+
 1. Conecta el repositorio en Render.
-2. Render detecta el **Dockerfile** y construye la imagen automáticamente.
+2. Render detecta el **Dockerfile** y construye la imagen **(Docker)** usando automáticamente.
 3. La API se desplegará en la URL pública asignada, por ejemplo:
 
 ```
@@ -141,7 +156,7 @@ https://comp-recommender.onrender.com
 
 [Probar recomendaciones](https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5)
 ```
-https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5"
+https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5
 ```
 
 **Respuesta esperada**:
@@ -190,7 +205,7 @@ https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5"
 [Probar más Populares](https://comp-recommender.onrender.com/popular?top_n=3")
 
 ```
-https://comp-recommender.onrender.com/popular?top_n=3"
+https://comp-recommender.onrender.com/popular?top_n=3
 ```
 
 **Respuesta esperada**:
