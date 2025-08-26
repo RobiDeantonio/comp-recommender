@@ -202,7 +202,7 @@ https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5
 ### Productos más populares
 
 
-[Probar más Populares](https://comp-recommender.onrender.com/popular?top_n=3")
+[Probar más Populares](https://comp-recommender.onrender.com/popular?top_n=3)
 
 ```
 https://comp-recommender.onrender.com/popular?top_n=3
