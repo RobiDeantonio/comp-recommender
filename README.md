@@ -5,23 +5,41 @@ Repositorio oficial del motor de recomendaciones personalizado para la plataform
 [Repositorio en GitHub](https://github.com/RobiDeantonio/comp-recommender)
 
 ---
+## 1️⃣ Metodología y estrategias de recomendación
 
-## 1️⃣ Metodología utilizada
+El motor implementa un enfoque **híbrido**, combinando:
 
-Este motor combina **filtrado basado en contenido** con **popularidad de productos**, generando recomendaciones personalizadas a partir de:
+1. **Filtrado Basado en Contenido**:
 
-* **Intereses del usuario**: cada usuario tiene etiquetas de interés (deportes, salud, bienestar, etc.).
-* **Atributos del producto**: nombre, categoría, descripción y palabras clave.
-* **Popularidad del producto**: basada en la cantidad de interacciones y el rating promedio.
+   * Se extraen **palabras clave** y la **descripción del producto**.
+   * Se utiliza **TF-IDF** para vectorizar los textos de los productos.
+   * Cada usuario tiene un vector de intereses basado en sus etiquetas (`intereses`), que se transforma también a un vector TF-IDF.
+   * Se calcula la **similitud coseno** entre el vector de intereses del usuario y cada producto, obteniendo un `sim_score` que refleja qué tan relevante es cada producto para ese usuario.
 
-El **score final** de cada producto combina:
+2. **Popularidad de Productos**:
+
+   * Se evalúa la popularidad basada en el **rating promedio** y el **número de interacciones** de cada producto.
+   * Se normaliza la popularidad (`pop_norm`) para que pueda combinarse con la similitud de contenido.
+
+3. **Score Híbrido**:
+
+   * Combinación ponderada de similitud y popularidad:
+
+```python
+score_hibrido = 0.7 * sim_score + 0.3 * pop_norm
+```
+
+* Esta estrategia permite que los productos recomendados no solo sean relevantes para los intereses del usuario, sino también populares dentro de la plataforma.
+
+4. **Recomendaciones Globales (Fallback)**:
+
+   * Si el usuario no tiene intereses registrados o no existe, se devuelven los productos más populares, evitando mostrar recomendaciones irrelevantes.
+
+**Resumen del flujo de recomendación para un usuario:**
 
 ```
-score_híbrido = 0.7 * similitud_usuario_producto + 0.3 * popularidad_normalizada
+Usuarios -> Extraer intereses -> Vectorizar -> Calcular similitud con productos -> Calcular score híbrido -> Ordenar top-N -> Devolver recomendaciones
 ```
-
-Se utiliza **TF-IDF** para vectorizar texto de productos y calcular similitud coseno con los intereses del usuario.
-
 ---
 
 ## 2️⃣ Dataset y procesamiento
@@ -30,9 +48,9 @@ Se utilizan tres datasets CSV:
 
 | Archivo            | Tamaño | Contenido                                                                                |
 | ------------------ | ------ | ---------------------------------------------------------------------------------------- |
-| `users.csv`        | 2.8 MB | Información de usuarios: edad, género, intereses, ubicación, tipo de suscripción, etc.   |
+| `users.csv`        | 465 kB | Información de usuarios: edad, género, intereses, ubicación, tipo de suscripción, etc.   |
 | `products.csv`     | 328 KB | Información de productos: nombre, descripción, categoría, precio, stock, palabras clave. |
-| `interactions.csv` | 465 KB | Historial de interacciones: compras, ratings, método de pago, timestamp.                 |
+| `interactions.csv` | 2.8 MB | Historial de interacciones: compras, ratings, método de pago, timestamp.                 |
 
 **Procesamiento**:
 
@@ -120,8 +138,10 @@ https://comp-recommender.onrender.com
 
 ### Recomendaciones personalizadas
 
+
+[Probar recomendaciones](https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5)
 ```
-https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5
+https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5"
 ```
 
 **Respuesta esperada**:
@@ -166,8 +186,11 @@ https://comp-recommender.onrender.com/recommendations?user_id=1&top_n=5
 
 ### Productos más populares
 
-```bash
-curl "https://comp-recommender.onrender.com/popular?top_n=3"
+
+[Probar más Populares](https://comp-recommender.onrender.com/popular?top_n=3")
+
+```
+https://comp-recommender.onrender.com/popular?top_n=3"
 ```
 
 **Respuesta esperada**:
